@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0755c9">
+  <meta name="description" content="HELP SCHOOL: organiza tareas, calendario, mochila, logros y recibe orientación educativa con NOVA.">
+  <meta name="color-scheme" content="light">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="HELP SCHOOL">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="application-name" content="HELP SCHOOL">
+  <title>HELP SCHOOL | Tu escuela organizada</title>
+  <link rel="manifest" href="manifest.webmanifest?v=6.0.0">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css?v=6.0.0">
+</head>
+<body>
+  <div id="connectionBanner" class="connection-banner hidden" role="status" aria-live="polite">Sin conexión. Puedes seguir consultando la información guardada.</div>
+  <div id="updateBanner" class="update-banner hidden" role="status">
+    <span>Hay una nueva versión de HELP SCHOOL.</span>
+    <button id="reloadAppButton" type="button">Actualizar</button>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <main id="loginView" class="login-shell">
+    <section class="login-card login-card-v4">
+      <img class="login-logo" src="assets/help-school-logo.jpg" alt="HELP SCHOOL, tu escuela organizada">
+      <span class="login-kicker">INGRESO DEL ESTUDIANTE</span>
+      <h1>Bienvenido a HELP SCHOOL</h1>
+      <p class="login-copy">Escribe tus datos para ingresar. No necesitas correo, contraseña ni cuenta de Gmail.</p>
+      <form id="localLoginForm" class="student-login-form">
+        <label><span>Nombres</span><input id="loginFirstNames" maxlength="40" autocomplete="given-name" placeholder="Ej.: José Luis" required></label>
+        <label><span>Apellidos</span><input id="loginLastNames" maxlength="50" autocomplete="family-name" placeholder="Ej.: García Pérez" required></label>
+        <label><span>Nivel educativo</span><select id="loginLevel" required><option value="">Selecciona tu nivel</option><option>Primaria</option><option>Secundaria</option><option>Superior</option></select></label>
+        <button class="btn btn-primary btn-block student-enter-button" type="submit">Ingresar a HELP SCHOOL</button>
+      </form>
+      <button id="installButtonLogin" class="install-login-button" type="button">
+        <span aria-hidden="true">⬇</span> Instalar HELP SCHOOL en este celular
+      </button>
+      <div id="loginError" class="login-error hidden" role="alert"></div>
+      <div class="login-benefits">
+        <span>✓ Ingreso rápido sin correo</span>
+        <span>✓ Tus datos se guardan en este celular</span>
+        <span>✓ NOVA adapta la ayuda a tu nivel</span>
+      </div>
+      <p class="privacy-note">No escribas contraseñas, dirección, teléfono ni información privada. NOVA es una guía educativa y no reemplaza a un docente, psicólogo ni servicio de emergencia.</p>
+    </section>
+  </main>
+
+  <div id="appView" class="app-shell hidden">
+    <header class="topbar">
+      <button class="mini-brand" type="button" data-go="home" aria-label="Ir al inicio"><img src="icons/icon-192.png" alt=""><span><small id="todayLabel"></small><strong id="greeting">Hola</strong></span></button>
+      <div class="top-actions">
+        <button id="notificationButton" class="top-icon" type="button" aria-label="Abrir notificaciones">🔔<span id="notificationBadge" class="notification-badge hidden">0</span></button>
+        <button id="avatarButton" class="avatar-button" type="button" aria-label="Abrir perfil">HS</button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section id="page-home" class="page active" data-page="home">
+        <article class="hero-card">
+          <div><span class="hero-chip">MI PROGRESO</span><h1 id="heroTitle">¡Vamos a cumplir tus metas!</h1><p id="heroText">Organiza tu día y completa una tarea a la vez.</p><button class="hero-button" type="button" data-go="tasks">Organizar mis tareas →</button></div>
+          <div class="progress-ring" id="progressRing" aria-label="Progreso de tareas"><strong id="progressPercent">0%</strong><small>completado</small></div>
+        </article>
+
+        <div class="stats-grid">
+          <article class="stat-card stat-blue"><span>✓</span><div><strong id="statPending">0</strong><small>Pendientes</small></div></article>
+          <article class="stat-card stat-yellow"><span>★</span><div><strong id="statPoints">0</strong><small>Puntos</small></div></article>
+          <article class="stat-card stat-green"><span>🎒</span><div><strong id="statWeight">0 g</strong><small>Mochila</small></div></article>
+          <article class="stat-card stat-pink"><span>▣</span><div><strong id="statEvents">0</strong><small>Eventos</small></div></article>
+        </div>
+
+        <article id="notificationCallout" class="notification-callout">
+          <div class="callout-icon">🔔</div><div><strong>Activa los recordatorios</strong><p>Recibe avisos al registrar, completar o tener tareas próximas.</p></div><button id="enableNotificationsHome" class="btn btn-small" type="button">Activar</button>
+        </article>
+
+        <article id="installCallout" class="install-callout hidden">
+          <img src="icons/icon-192.png" alt="">
+          <div><strong>Úsala como una app</strong><p>Instala HELP SCHOOL para abrirla desde tu pantalla de inicio, sin barra del navegador y con su propio icono.</p></div>
+          <button id="installButtonHome" class="btn btn-small" type="button">Instalar</button>
+        </article>
+
+        <div class="section-heading"><div><p class="eyebrow">HOY Y PRÓXIMAMENTE</p><h2>Tu agenda</h2></div><button class="link-button" type="button" data-go="tasks">Ver tareas</button></div>
+        <div id="homeAgenda" class="stack-list"></div>
+
+        <div class="section-heading"><div><p class="eyebrow">ACCESOS RÁPIDOS</p><h2>¿Qué necesitas hacer?</h2></div></div>
+        <div class="quick-grid">
+          <button class="quick-card q-blue" type="button" data-modal="taskModal"><span>＋</span><b>Nueva tarea</b><small>Fecha, curso y prioridad</small></button>
+          <button class="quick-card q-yellow" type="button" data-modal="eventModal"><span>▣</span><b>Nuevo evento</b><small>Examen o exposición</small></button>
+          <button class="quick-card q-green" type="button" data-go="backpack"><span>🎒</span><b>Mi mochila</b><small>Controla el peso</small></button>
+          <button class="quick-card q-pink" type="button" data-go="nova"><span>✦</span><b>Preguntar a NOVA</b><small>Aprende paso a paso</small></button>
+        </div>
+
+        <article class="nova-coach-card">
+          <div class="nova-coach-avatar" aria-hidden="true">✦</div>
+          <div class="nova-coach-copy">
+            <span>CONSEJO DE NOVA</span>
+            <strong id="novaCoachTitle">Estoy lista para ayudarte</strong>
+            <p id="novaCoachText">Pregúntame una duda, organiza una tarea o practica para un examen.</p>
+          </div>
+          <button id="novaCoachButton" class="nova-coach-button" type="button">Conversar</button>
+        </article>
+      </section>
+
+      <section id="page-tasks" class="page" data-page="tasks">
+        <div class="page-title"><div><p class="eyebrow">ORGANIZACIÓN</p><h1>Mis tareas</h1></div><button class="round-add" data-modal="taskModal" type="button" aria-label="Agregar tarea">＋</button></div>
+        <div class="filter-row" role="group" aria-label="Filtrar tareas"><button class="filter active" data-task-filter="all" type="button">Todas</button><button class="filter" data-task-filter="pending" type="button">Pendientes</button><button class="filter" data-task-filter="done" type="button">Completadas</button></div>
+        <div id="taskList" class="stack-list"></div>
+      </section>
+
+      <section id="page-calendar" class="page" data-page="calendar">
+        <div class="page-title"><div><p class="eyebrow">PLANIFICACIÓN</p><h1>Calendario escolar</h1></div><button class="round-add" data-modal="eventModal" type="button" aria-label="Agregar evento">＋</button></div>
+        <article class="month-card"><span id="monthName"></span><strong id="monthDay"></strong><small id="monthWeekday"></small></article>
+        <div id="eventList" class="timeline"></div>
+      </section>
+
+      <section id="page-backpack" class="page" data-page="backpack">
+        <div class="page-title"><div><p class="eyebrow">BIENESTAR</p><h1>Mochila inteligente</h1></div><button class="round-add" data-modal="itemModal" type="button" aria-label="Agregar útil">＋</button></div>
+        <article class="weight-card"><div class="bag-illustration" aria-hidden="true">🎒</div><div><p>Peso registrado</p><strong id="totalWeight">0 g</strong><small id="weightMessage">Agrega los útiles que llevarás.</small></div></article>
+        <label class="inline-setting">Peso corporal aproximado (kg)<input id="bodyWeight" type="number" min="10" max="200" step="0.1" placeholder="Ej.: 50"></label>
+        <div id="itemList" class="stack-list"></div>
+      </section>
+
+      <section id="page-achievements" class="page" data-page="achievements">
+        <div class="page-title"><div><p class="eyebrow">MOTIVACIÓN</p><h1>Mis logros</h1></div></div>
+        <article class="points-card"><span>★</span><div><small>Puntos acumulados</small><strong id="pointsTotal">0</strong></div></article>
+        <div id="achievementGrid" class="achievement-grid"></div>
+      </section>
+
+      <section id="page-nova" class="page nova-page" data-page="nova">
+        <div class="page-title nova-title"><div><p class="eyebrow">ASISTENTE EDUCATIVO</p><h1>NOVA</h1></div><span id="novaStatus" class="status-pill offline">Modo local</span></div>
+        <article class="nova-intro"><div class="nova-orb">✦</div><div><strong>Hola, soy NOVA</strong><p>Te ayudo a comprender temas, organizar trabajos y estudiar paso a paso. No haré daño, no promoveré violencia y protegeré tu bienestar.</p></div></article>
+        <div class="prompt-chips" aria-label="Preguntas sugeridas"><button type="button" data-nova-prompt="Ayúdame a organizar una tarea para esta semana">Organizar tarea</button><button type="button" data-nova-prompt="Explícame un tema paso a paso y con un ejemplo sencillo">Explicar un tema</button><button type="button" data-nova-prompt="Crea un plan de estudio de 30 minutos">Plan de estudio</button><button type="button" data-nova-prompt="Hazme preguntas para practicar antes de mi examen">Practicar examen</button></div>
+        <div class="nova-chat-tools">
+          <button id="clearNovaChat" type="button">🗑️ Limpiar conversación</button>
+          <button id="openNovaFloating" type="button">↗ Abrir chat flotante</button>
+        </div>
+        <div id="chatList" class="chat-list" aria-live="polite"></div>
+        <form id="novaForm" class="chat-form">
+          <button id="voiceButton" class="voice-button" type="button" aria-label="Dictar pregunta">🎙️</button>
+          <textarea id="novaQuestion" maxlength="800" rows="1" placeholder="Escribe tu pregunta escolar…" required></textarea>
+          <button class="send-button" type="submit" aria-label="Enviar pregunta">➤</button>
+        </form>
+        <p class="helper-note"><strong>Uso seguro:</strong> NOVA no proporciona instrucciones para autolesiones, violencia, acoso, drogas, contenido sexual explícito, delitos o invasión de privacidad. Ante peligro, busca inmediatamente a un adulto de confianza.</p>
+      </section>
+
+      <section id="page-profile" class="page" data-page="profile">
+        <div class="page-title"><div><p class="eyebrow">ESTUDIANTE</p><h1>Mi perfil</h1></div></div>
+        <article class="profile-card"><img src="icons/icon-192.png" alt="Logo HELP SCHOOL"><div id="profileAvatar" class="profile-avatar">HS</div><h2 id="profileName">Estudiante</h2><p id="profileStorage">Datos guardados en este celular</p><span id="profileLevel" class="profile-level-pill">Secundaria</span></article>
+        <form id="profileForm" class="settings-card">
+          <label><span>Nombres</span><input id="profileFirstNamesInput" maxlength="40" autocomplete="given-name" required></label>
+          <label><span>Apellidos</span><input id="profileLastNamesInput" maxlength="50" autocomplete="family-name" required></label>
+          <label><span>Nivel educativo</span><select id="profileLevelInput" required><option>Primaria</option><option>Secundaria</option><option>Superior</option></select></label>
+          <button class="btn btn-primary btn-block" type="submit">Guardar cambios</button>
+        </form>
+        <section class="settings-card">
+          <div class="setting-row"><div><strong>Almacenamiento</strong><small id="localStorageText">Tareas y avances guardados en este dispositivo</small></div><span id="localStorageBadge" class="status-pill online">Guardado</span></div>
+          <div class="setting-row"><div><strong>Notificaciones del sistema</strong><small id="notificationPermissionText">No activadas</small></div><button id="enableNotificationsProfile" class="btn btn-small" type="button">Activar</button></div>
+          <div class="setting-row"><div><strong>Estado de NOVA</strong><small id="novaBackendText">Comprobando conexión</small></div><button id="testNovaButton" class="btn btn-small btn-secondary" type="button">Probar</button></div>
+        </section>
+        <button id="installButton" class="btn btn-secondary btn-block" type="button">Instalar HELP SCHOOL en este celular</button>
+        <button id="logoutButton" class="btn btn-danger btn-block" type="button">Cambiar de estudiante</button>
+      </section>
+    </main>
+
+    <button id="novaFab" class="nova-fab" type="button" aria-label="Abrir chat con NOVA" aria-haspopup="dialog">
+      <span class="nova-fab-orb" aria-hidden="true">✦</span>
+      <span class="nova-fab-label"><strong>NOVA</strong><small>Pregúntame</small></span>
+      <span id="novaFabPulse" class="nova-fab-pulse" aria-hidden="true"></span>
+    </button>
+
+    <dialog id="novaChatModal" class="nova-chat-dialog">
+      <section class="nova-chat-sheet">
+        <header class="nova-chat-header">
+          <div class="nova-chat-identity">
+            <div class="nova-chat-avatar" aria-hidden="true">✦</div>
+            <div><strong>NOVA</strong><small id="novaModalStatus">Asistente educativo</small></div>
+          </div>
+          <div class="nova-chat-header-actions">
+            <button id="expandNovaChat" type="button" aria-label="Abrir NOVA en pantalla completa">↗</button>
+            <button class="close-modal" type="button" aria-label="Cerrar chat">×</button>
+          </div>
+        </header>
+        <div class="nova-modal-intro">
+          <strong>¿Qué duda tienes?</strong>
+          <span>Escribe o dicta tu pregunta. Te explicaré paso a paso según tu nivel.</span>
+        </div>
+        <div class="nova-modal-prompts" aria-label="Consultas rápidas">
+          <button type="button" data-nova-modal-prompt="Explícame este tema con palabras sencillas y un ejemplo">Explicar tema</button>
+          <button type="button" data-nova-modal-prompt="Ayúdame a organizar mis tareas pendientes">Organizar tareas</button>
+          <button type="button" data-nova-modal-prompt="Hazme cinco preguntas para practicar para un examen">Practicar examen</button>
+        </div>
+        <div id="novaModalChatList" class="nova-modal-chat-list" aria-live="polite"></div>
+        <form id="novaModalForm" class="nova-modal-form">
+          <button id="novaModalVoiceButton" class="nova-modal-tool" type="button" aria-label="Dictar pregunta">🎙️</button>
+          <textarea id="novaModalQuestion" maxlength="800" rows="1" placeholder="Escribe tu duda…" required></textarea>
+          <button class="nova-modal-send" type="submit" aria-label="Enviar a NOVA">➤</button>
+        </form>
+        <p class="nova-modal-safety">NOVA protege tu bienestar y no solicita datos privados.</p>
+      </section>
+    </dialog>
+
+    <nav class="bottom-nav" aria-label="Navegación principal">
+      <button class="nav-item active" data-page-target="home" type="button"><span>⌂</span><small>Inicio</small></button>
+      <button class="nav-item" data-page-target="tasks" type="button"><span>✓</span><small>Tareas</small></button>
+      <button class="nav-item" data-page-target="calendar" type="button"><span>▣</span><small>Agenda</small></button>
+      <button class="nav-item" data-page-target="backpack" type="button"><span>🎒</span><small>Mochila</small></button>
+      <button class="nav-item" data-page-target="nova" type="button"><span>✦</span><small>NOVA</small></button>
+    </nav>
+  </div>
+
+  <dialog id="notificationPanel" class="side-dialog">
+    <section class="notification-panel"><div class="modal-head"><div><p class="eyebrow">AVISOS</p><h2>Notificaciones</h2></div><button class="close-modal" type="button">×</button></div><div class="panel-actions"><button id="enableNotificationsPanel" class="btn btn-primary btn-small" type="button">Activar avisos</button><button id="markNotificationsRead" class="link-button" type="button">Marcar leídas</button></div><div id="notificationList" class="notification-list"></div></section>
+  </dialog>
+
+
+  <dialog id="installGuideModal" class="modal install-guide-modal">
+    <section class="modal-card install-guide-card">
+      <div class="modal-head">
+        <div><p class="eyebrow">APLICACIÓN MÓVIL</p><h2>Instalar HELP SCHOOL</h2></div>
+        <button class="close-modal" type="button" aria-label="Cerrar">×</button>
+      </div>
+      <div class="install-preview">
+        <img src="icons/icon-192.png" alt="Icono de HELP SCHOOL">
+        <div><strong>HELP SCHOOL</strong><small>Se abrirá en pantalla completa como una aplicación.</small></div>
+      </div>
+      <button id="installAppNow" class="btn btn-primary btn-block" type="button">Instalar ahora</button>
+      <div class="install-steps android-install-steps">
+        <strong>En Android con Chrome</strong>
+        <p>Presiona <b>Instalar ahora</b>. Si no aparece el aviso, abre el menú ⋮ y selecciona <b>Agregar a pantalla principal</b> o <b>Instalar aplicación</b>.</p>
+      </div>
+      <div class="install-steps ios-install-steps">
+        <strong>En iPhone o iPad con Safari</strong>
+        <p>Presiona el botón <b>Compartir</b> de Safari, elige <b>Agregar a inicio</b> y luego <b>Agregar</b>.</p>
+      </div>
+      <p id="installStateText" class="install-state-text">La instalación necesita HTTPS, por eso funciona desde GitHub Pages o Vercel.</p>
+    </section>
+  </dialog>
+
+  <dialog id="taskModal" class="modal"><form id="taskForm" method="dialog" class="modal-card"><div class="modal-head"><div><p class="eyebrow">NUEVA</p><h2>Agregar tarea</h2></div><button class="close-modal" type="button">×</button></div><label><span>Tarea</span><input id="taskTitle" maxlength="70" placeholder="Ej.: Resolver ejercicios" required></label><label><span>Materia</span><input id="taskSubject" maxlength="30" placeholder="Ej.: Matemática" required></label><div class="two-col"><label><span>Fecha</span><input id="taskDate" type="date" required></label><label><span>Hora</span><input id="taskTime" type="time" value="18:00"></label></div><label><span>Prioridad</span><select id="taskPriority"><option value="high">Alta</option><option value="medium" selected>Media</option><option value="low">Baja</option></select></label><button class="btn btn-primary btn-block" type="submit">Guardar tarea</button></form></dialog>
+  <dialog id="eventModal" class="modal"><form id="eventForm" method="dialog" class="modal-card"><div class="modal-head"><div><p class="eyebrow">NUEVO</p><h2>Agregar evento</h2></div><button class="close-modal" type="button">×</button></div><label><span>Evento</span><input id="eventTitle" maxlength="70" placeholder="Ej.: Examen de Ciencia" required></label><div class="two-col"><label><span>Fecha</span><input id="eventDate" type="date" required></label><label><span>Hora</span><input id="eventTime" type="time" value="08:00" required></label></div><button class="btn btn-primary btn-block" type="submit">Guardar evento</button></form></dialog>
+  <dialog id="itemModal" class="modal"><form id="itemForm" method="dialog" class="modal-card"><div class="modal-head"><div><p class="eyebrow">MOCHILA</p><h2>Agregar útil</h2></div><button class="close-modal" type="button">×</button></div><label><span>Útil o material</span><input id="itemName" maxlength="50" placeholder="Ej.: Cuaderno de Matemática" required></label><label><span>Peso aproximado (gramos)</span><input id="itemWeight" type="number" min="1" max="10000" placeholder="Ej.: 350" required></label><button class="btn btn-primary btn-block" type="submit">Agregar a mi mochila</button></form></dialog>
+
+  <script src="config.js?v=6.0.0"></script>
+  <script type="module" src="app.js?v=6.0.0"></script>
+</body>
+</html>

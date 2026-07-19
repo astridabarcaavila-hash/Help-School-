@@ -1,0 +1,85 @@
+{
+  "id": "./",
+  "name": "HELP SCHOOL - Asistente escolar con NOVA",
+  "short_name": "HELP SCHOOL",
+  "description": "Organiza tareas, calendario y mochila; conversa con NOVA, tu asistente educativo seguro.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#f4f8ff",
+  "theme_color": "#0755c9",
+  "lang": "es-PE",
+  "dir": "ltr",
+  "categories": [
+    "education",
+    "productivity"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mis tareas",
+      "short_name": "Tareas",
+      "description": "Abrir la lista de tareas",
+      "url": "./?page=tasks&source=shortcut",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Preguntar a NOVA",
+      "short_name": "NOVA",
+      "description": "Abrir el asistente educativo",
+      "url": "./?page=nova&source=shortcut",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Nueva tarea",
+      "short_name": "Nueva tarea",
+      "description": "Registrar una tarea escolar",
+      "url": "./?action=new-task&source=shortcut",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "version": "6.0.0"
+}

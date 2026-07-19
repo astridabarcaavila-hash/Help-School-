@@ -1,0 +1,8 @@
+HELP SCHOOL v6
+
+1. Sube todos los archivos a GitHub.
+2. Abre la app con ?v=6.0 para evitar caché antigua.
+3. Para IA completa, publica el repositorio en Vercel.
+4. Configura GROQ_API_KEY en Vercel.
+5. En config.js coloca https://TU-PROYECTO.vercel.app/api si la interfaz seguirá en GitHub Pages.
+6. En el celular, abre Chrome y selecciona Instalar aplicación.
